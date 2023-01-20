@@ -7,15 +7,17 @@ import json
 import re
 
 
-path = os.getcwd()+"/S18items.xlsx"
+file_path = os.getcwd()+"file name"
 
-df = pd.read_excel(path)
+df = pd.read_excel(file_path)
 item_list = df.to_dict(orient="index")
 # item_list2 = df.set_index("Type").to_dict(orient="records")
 
 
 def save_file(dictionary, file_name):
-    ''' Function that converts python dictionary into javascript dictionary '''
+    ''' Function that converts python dictionary into javascript dictionary  where dictionary is the dict that we want to modify to js format
+    and file_name is the name of the file where we will save it
+    '''
     json_str = json.dumps(dictionary, indent=4, ensure_ascii=False)
     remove_quotes = re.sub("\"([^\"]+)\":", r"\1:", json_str)
     file_name_cleaned = file_name.split(" ")[0]
