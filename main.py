@@ -1,5 +1,5 @@
 """
-How to convert dictionaries
+How to convert dictionaries python dictionary to js dictionary 
 """
 import pandas as pd
 import os
