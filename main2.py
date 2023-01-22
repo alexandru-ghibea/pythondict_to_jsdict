@@ -1,5 +1,6 @@
 """
-How to convert dictionaries python dictionary to js dictionary
+How to convert excel worksheets to python dictionary and then convert it to javascript dictionary
+
 """
 import pandas as pd
 import numpy as np
@@ -8,15 +9,7 @@ import json
 import re
 
 
-# def get_path():
-#     for root, dirs, files in os.walk(".", topdown=False):
-#         for name in files:
-#             if name.endswith(".xlsx"):
-#                 file_path = os.path.join(root, name)
-#                 return file_path
-
-
-file_path = os.getcwd()+"/item_original.xlsx"
+file_path = os.getcwd()+"/filenanme"
 
 df = pd.read_excel(file_path)
 item_list = df.to_dict(orient="records")
@@ -36,9 +29,6 @@ def save_file(dictionary, file_name):
                       " = " + remove_quotes + ";")
 
 
-file_path = os.getcwd()+"/item_original.xlsx"
-
-
 # Load Excel file using Pandas
 f = pd.ExcelFile(file_path)
 
@@ -54,9 +44,22 @@ for sheet in f.sheet_names:
     # And append it to the list
     list_of_dfs.append(df)
 
+
 # Combine all DataFrames into one
 data = pd.concat(list_of_dfs, ignore_index=True)
 
 # save the merged DataFrames
-save_file(data.to_dict(orient="records"), "test_dataframe")
-print(data.shape)
+save_file(data.to_dict(orient="records"), "test_data_frame")
+
+# Save each Data Frame to a single file
+dicts = []
+
+# iterate through each data frames
+for item in list_of_dfs:
+    # transform the data frame to dictionary
+    item_dict = item.to_dict(orient="records")
+    dicts.append(item_dict)
+
+# iterate through each dictionary
+for i in range(len(dicts)):
+    save_file(dicts[i], f"sheet{i}")
