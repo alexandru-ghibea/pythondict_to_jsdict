@@ -8,14 +8,6 @@ import json
 import re
 
 
-# def get_path():
-#     for root, dirs, files in os.walk(".", topdown=False):
-#         for name in files:
-#             if name.endswith(".xlsx"):
-#                 file_path = os.path.join(root, name)
-#                 return file_path
-
-
 file_path = os.getcwd()+"/item_original.xlsx"
 
 df = pd.read_excel(file_path)

@@ -7,9 +7,11 @@ import numpy as np
 import os
 import json
 import re
+from sqlalchemy import create_engine
+# create database connection
+engine = create_engine('sqlite:///my_database.db')
 
-
-file_path = os.getcwd()+"/filenanme"
+file_path = os.getcwd()+"/item_original.xlsx"
 
 df = pd.read_excel(file_path)
 item_list = df.to_dict(orient="records")
@@ -40,14 +42,15 @@ for sheet in f.sheet_names:
 
     # Parse data from each worksheet as a Pandas DataFrame
     df = f.parse(sheet)
-
-    # And append it to the list
+# And append it to the list
     list_of_dfs.append(df)
 
 
 # Combine all DataFrames into one
 data = pd.concat(list_of_dfs, ignore_index=True)
-
+# write the data frame to the data base
+data.to_sql("data", engine, if_exists='replace')
+print(engine.execute("select * from data").fetchone())
 # save the merged DataFrames
 save_file(data.to_dict(orient="records"), "test_data_frame")
 
